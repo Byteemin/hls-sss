@@ -19,38 +19,37 @@ body {
   position: absolute;
   bottom: 5%;
   width: 50%;
+  display: flex;
+  flex-direction: row;
 }
 .channel--active {
   display: block;
 }
 .channel__next-tv-movie {
-  color: #545454;
+  color: #e4e2e2;
+  justify-content: end;
 }
 .tv-movie {
   display: flex;
   justify-content: start;
 }
 .tv-movie__icon {
-  margin-left: 20px;
 }
 .tv-movie__name {
   font-size: 20px;
-  margin-left: 20px;
-  color: #2ba668;
+  color: #e4e2e2;
 }
 .tv-movie__type {
   font-size: 16px;
-  color: #2ba668;
-  margin-left: 20px;
+  color: #e4e2e2;
 }
 .player-sidebar{
  display: flex;
- justify-content: center;
+ justify-content: space-between;
 }
 .player-sidebar__release-time {
-  color: #2ba668;
+  color: #e4e2e2;
   font-size: 12px;
-  margin-top: -3px;
 }
 .player-sidebar__time-line {
   margin-left: 20px;
