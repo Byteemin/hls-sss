@@ -7,47 +7,61 @@ body {
   width: 100%;
   position: relative;
 }
-.player {
-  display: flex;
-  justify-content: center;
-}
+.player {}
 .player__video {
   height: 100vh;
   width: 100%;
 }
 .channel {
   position: absolute;
-  bottom: 5%;
-  width: 50%;
+  bottom: 5%;             /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.channel--active-none {
+  display: none;
+}
+.info-video {
+ /* width: 50%; */
+}
+
+.tv-date {
+  display: flex;
+  margin-bottom: 1%;
+}
+
+.tv-info {
+  margin-left: 9vw;       /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
   display: flex;
   flex-direction: row;
+  align-items: flex-end;
 }
-.channel--active {
-  display: block;
+.tv-info__icon {
+  padding-right: 20px;
 }
-.channel__next-tv-movie {
+.tv-info__name {
   color: #e4e2e2;
-  justify-content: end;
+  padding-right: 20px;
 }
-.tv-movie {
+.tv-about {
+  color: #e4e2e2;
+}
+.tv-about__next {
+  color: #545454;
+}
+.tv-about__type {
+  /* color: #e4e2e2; */
+}
+
+
+.player-sidebar {
   display: flex;
-  justify-content: start;
+  align-items: baseline;
 }
-.tv-movie__icon {
-}
-.tv-movie__name {
-  font-size: 20px;
-  color: #e4e2e2;
-}
-.tv-movie__type {
-  font-size: 16px;
-  color: #e4e2e2;
-}
-.player-sidebar{
- display: flex;
- justify-content: space-between;
-}
+
 .player-sidebar__release-time {
+  white-space: nowrap;
   color: #e4e2e2;
   font-size: 12px;
 }
@@ -55,6 +69,6 @@ body {
   margin-left: 20px;
   background-color: #fff;
   border-radius: 10px;
-  width: 90vh;
+  width: 80vw;
   height: 0.8vh;
 }
