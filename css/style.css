@@ -5,21 +5,26 @@ body {
 .container {
   height: 100vh;
   width: 100%;
-}
-.player {
   position: relative;
 }
+.player {
+  display: flex;
+  justify-content: center;
+}
 .player__video {
-  height: 80vh;
+  height: 100vh;
   width: 100%;
 }
 .channel {
-  background: linear-gradient(0deg, #000 10%, #fff 85%);
+  position: absolute;
+  bottom: 5%;
+  width: 50%;
+}
+.channel--active {
+  display: block;
 }
 .channel__next-tv-movie {
   color: #545454;
-  display: flex;
-  justify-content: end;
 }
 .tv-movie {
   display: flex;
@@ -49,8 +54,8 @@ body {
 }
 .player-sidebar__time-line {
   margin-left: 20px;
-  border: 1px solid #000;
+  background-color: #fff;
   border-radius: 10px;
   width: 90vh;
-  height: 0.5vh;
+  height: 0.8vh;
 }
