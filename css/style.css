@@ -7,20 +7,23 @@ body {
   width: 100%;
 }
 .player {
+  position: relative;
 }
 .player__video {
   height: 80vh;
   width: 100%;
 }
 .channel {
-  display: flex;
+  background: linear-gradient(0deg, #000 10%, #fff 85%);
 }
 .channel__next-tv-movie {
   color: #545454;
+  display: flex;
+  justify-content: end;
 }
 .tv-movie {
   display: flex;
-  justify-content: space-around;
+  justify-content: start;
 }
 .tv-movie__icon {
   margin-left: 20px;
