@@ -49,6 +49,7 @@ body {
 }
 .tv-about__next {
   color: #545454;
+  margin-bottom: 3px;
 }
 .tv-about__type {
   /* color: #e4e2e2; */
@@ -56,6 +57,7 @@ body {
 
 
 .player-sidebar {
+  /* position: relative; */
   display: flex;
   align-items: baseline;
 }
@@ -70,5 +72,27 @@ body {
   background-color: #fff;
   border-radius: 10px;
   width: 80vw;
+  /* height: 0.8vh; */
+}
+.player-sidebar__time-line--filling {
+  /* position: absolute; */
+  background-color: #1eda18;
+  border-radius: 10px;
+  width: 0;
   height: 0.8vh;
+  z-index: 1;
+  transition: width 0.2s ease-out;
+}
+
+@media (min-width: 1025px) {
+  /* Стили для средних и больших настольных компьютеров */
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Стили для небольших ноутбуков и горизонтальной ориентации планшетов */
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  /* Стили для планшетов и горизонтальной ориентации смартфонов */
+}
+@media (max-width: 480px) {
+  /* Стили для маленьких устройств */
 }
