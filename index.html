@@ -8,7 +8,7 @@
     <!-- dop scripts for work hls  -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
 
-    <!-- попытка перекинуть весь скрипт в отдельный файл( -->
+    <!-- попытка перекинуть весь скрипт в отдельный файл) -->
     <script src="js/script.js"></script>
 </head>
 <body>
@@ -38,30 +38,5 @@
     </div>
     </div>
   </div>
-  
-  <script>
-    if (Hls.isSupported()) {
-      var video = document.getElementById('video');
-      var config = {
-        autoStartLoad: true,
-      };
-      
-      var hls = new Hls(config);
-
-      hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-        console.log('video and hls.js are now bound together !');
-      });
-      hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
-        console.log(
-          'manifest loaded, found ' + data.levels.length + ' quality level'
-        );
-      });
-      hls.loadSource('https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8');
-      // bind them together
-      hls.attachMedia(video);
-    }
-  </script>
-  
-  <noscript>Sorry, your browser does not support JavaScript!</noscript>
 </body>
 </html>
