@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+  var seconds_for_rewind = 10;
 
   if (Hls.isSupported()) {
     var video = document.getElementById('video');
@@ -53,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Полоса видео и сколько осталось в минутах
   var timeline = document.querySelector('.player-sidebar__time-line');
   var progress = document.querySelector('.player-sidebar__time-line--filling');
-  var timeLeft  = document.querySelector('.player-sidebar__release-time');
+  var timeLeft  = document.querySelector('.controls__vidoe-time');
 
 // Клик по тайм лайн
   timeline.addEventListener('click', function(event) {
@@ -73,13 +74,51 @@ document.addEventListener('DOMContentLoaded', function() {
     progress.style.width = percentage + '%'; 
   });
 
+// Время до конца видео
   video.addEventListener('timeupdate', function() {
     var remainingTime = video.duration - video.currentTime;
     var minutes = Math.floor(remainingTime / 60);
-    var seconds = Math.floor(remainingTime % 60);
+    // var seconds = Math.floor(remainingTime % 60);
     var formattedTime = "Еще " + minutes + " минут";
     timeLeft.textContent = formattedTime;
   });
 
+// Обработчик события нажатия на клавишу
+  document.addEventListener('keydown', function(event) {
+    switch (event.key) {
+      case 'ArrowLeft':
+        rewindVideo(-10); // перемотка назад на 10 секунд
+        break;
+      case 'ArrowRight':
+        rewindVideo(10); // перемотка вперед на 10 секунд
+        break;
+    }
+  });
 
+  // Функция для перемотки видео
+  function rewindVideo(seconds_for_rewind) {
+    video.currentTime += seconds_for_rewind;
+  }
+
+  // var timeLeft  = document.querySelector('.controls');
+  // var mouseMoved = false;
+// Обработчик события движения мыши
+  // document.addEventListener('mousemove', function() {
+  //   mouseMoved = true;
+  //   showHiddenPanel();
+  // });
+
+// // Обработчик события скроллинга
+//   document.addEventListener('scroll', function() {
+//     if (mouseMoved) {
+//       showHiddenPanel();
+//     }
+//   });
+
+// Функция для отображения скрытой панели
+  // function showHiddenPanel() {
+  //   if (hiddenPanel.style.display === 'none') {
+  //     // hiddenPanel.style.display = 'flex';
+  //   }
+  // }
 });
