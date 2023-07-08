@@ -24,32 +24,70 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
 
+  var hiddenPanel = document.querySelector('.controls');
+  var mouseMoved = false;
+  var timeout;
 
+// Обработчик события движения мыши
+  document.addEventListener('mousemove', function() {
+    mouseMoved = true;
+    showOrHidePanel();
+  });
 
-// Пауза и старт виде по нажатию Пробела или клику по видео
+// Обработчик события скроллинга
+  document.addEventListener('scroll', function() {
+    showOrHidePanel();
+  });
+
+// Функция для отображения или скрытия панели
+  function showOrHidePanel() {
+    if (mouseMoved || video.paused) {
+      hiddenPanel.style.display = 'flex';
+      resetTimer();
+    } else {
+      hiddenPanel.style.display = 'none';
+    }
+  }
+
+// Таймер для сброса значения mouseMoved
+  function resetTimer() {
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+      mouseMoved = false;
+      if (!video.paused) {
+        hiddenPanel.style.display = 'none';
+      }
+    }, 2000); // Время задержки перед сокрытием панели (2 секунды)
+  }
+
+// Пауза и старт видео по нажатию Пробела или клику по видео
   var video = document.getElementById('video');
-  var play_stope_bool = false;
-  document  .addEventListener('keydown', function(event) {
-    if (event.code === 'Space' & play_stope_bool) {
+  var play_stop_bool = false;
+
+  document.addEventListener('keydown', function(event) {
+    if (event.code === 'Space' && play_stop_bool) {
       video.play();
-      play_stope_bool = false;
-    }
-    else {
+      showOrHidePanel();
+      play_stop_bool = false;
+    } else {
       video.pause();
-      play_stope_bool = true;  
+      showOrHidePanel();
+      play_stop_bool = true;
     }
   });
+
   video.addEventListener('click', function() {
-    if (play_stope_bool) {
+    if (play_stop_bool) {
       video.play();
-      play_stope_bool = false;
-    }
-    else {
+      showOrHidePanel();
+      play_stop_bool = false;
+    } else {
       video.pause();
-      play_stope_bool = true;  
+      StopVideo = true;
+      showOrHidePanel();
+      play_stop_bool = true;
     }
-  });
-  
+  });       
 
   // Полоса видео и сколько осталось в минутах
   var timeline = document.querySelector('.player-sidebar__time-line');
@@ -100,25 +138,12 @@ document.addEventListener('DOMContentLoaded', function() {
     video.currentTime += seconds_for_rewind;
   }
 
-  // var timeLeft  = document.querySelector('.controls');
-  // var mouseMoved = false;
-// Обработчик события движения мыши
-  // document.addEventListener('mousemove', function() {
-  //   mouseMoved = true;
-  //   showHiddenPanel();
-  // });
 
-// // Обработчик события скроллинга
-//   document.addEventListener('scroll', function() {
-//     if (mouseMoved) {
-//       showHiddenPanel();
-//     }
-//   });
-
-// Функция для отображения скрытой панели
-  // function showHiddenPanel() {
-  //   if (hiddenPanel.style.display === 'none') {
-  //     // hiddenPanel.style.display = 'flex';
-  //   }
-  // }
+  // Включение полноэкранного режима по нажатию на клавишу "Enter"
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Enter') {
+    video.requestFullscreen();
+    video.controls = false;
+  }
+});
 });
