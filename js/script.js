@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
 
   var seconds_for_rewind = 10;
+  var video = document.getElementById('video');
+  var hiddenPanel = document.querySelector('.controls');
+  var timeout;
+  var isClickEvent = false; // Флаг для определения события клика
 
   if (Hls.isSupported()) {
     var video = document.getElementById('video');
@@ -24,28 +28,26 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
 
-  var hiddenPanel = document.querySelector('.controls');
-  var mouseMoved = false;
-  var timeout;
+ var mouseReaction = true;
 
-// Обработчик события движения мыши
-  document.addEventListener('mousemove', function() {
-    mouseMoved = true;
-    showOrHidePanel();
-  });
 
-// Обработчик события скроллинга
-  document.addEventListener('scroll', function() {
-    showOrHidePanel();
-  });
+  document.addEventListener('mousemove', appearanceControls);   // Обработчик события движения мыши
 
-// Функция для отображения или скрытия панели
-  function showOrHidePanel() {
-    if (mouseMoved || video.paused) {
+// Появление/скрытие панели
+  function appearanceControls(event) {
+    if (event.type ==='mousemove' && mouseReaction) {
       hiddenPanel.style.display = 'flex';
       resetTimer();
-    } else {
-      hiddenPanel.style.display = 'none';
+    }
+    else {
+      if (video.paused) {
+        hiddenPanel.style.display = 'none';
+        mouseReaction = false;
+      }
+      else {
+        hiddenPanel.style.display = 'flex';
+        mouseReaction = false;
+      }
     }
   }
 
@@ -53,41 +55,44 @@ document.addEventListener('DOMContentLoaded', function() {
   function resetTimer() {
     clearTimeout(timeout);
     timeout = setTimeout(function() {
-      mouseMoved = false;
-      if (!video.paused) {
-        hiddenPanel.style.display = 'none';
-      }
+      hiddenPanel.style.display = 'none';
     }, 2000); // Время задержки перед сокрытием панели (2 секунды)
   }
 
-// Пауза и старт видео по нажатию Пробела или клику по видео
-  var video = document.getElementById('video');
-  var play_stop_bool = false;
+  
 
+
+
+
+
+// Обработчик события нажатия клавиши Пробел
   document.addEventListener('keydown', function(event) {
-    if (event.code === 'Space' && play_stop_bool) {
-      video.play();
-      showOrHidePanel();
-      play_stop_bool = false;
-    } else {
-      video.pause();
-      showOrHidePanel();
-      play_stop_bool = true;
+    if (event.code === 'Space' && !isClickEvent) {
+      appearanceControls(event);       
+      togglePlayPause();
     }
   });
+  
+// Обработчик события клика на видео
+  video.addEventListener('click', function(event) {
+    isClickEvent = true;
+    appearanceControls(event);
+    togglePlayPause();
+  });
+  
+// Обработчик события окончания клика на видео
+  video.addEventListener('mouseup', function() {
+    isClickEvent = false;
+  });
 
-  video.addEventListener('click', function() {
-    if (play_stop_bool) {
-      video.play();
-      showOrHidePanel();
-      play_stop_bool = false;
-    } else {
-      video.pause();
-      StopVideo = true;
-      showOrHidePanel();
-      play_stop_bool = true;
-    }
-  });       
+// Функция для переключения паузы и старта видео
+function togglePlayPause() {
+  if (video.paused) {
+    video.play();
+  } else {
+    video.pause();
+  }
+}
 
   // Полоса видео и сколько осталось в минутах
   var timeline = document.querySelector('.player-sidebar__time-line');
