@@ -9,6 +9,24 @@ document.addEventListener('DOMContentLoaded', function() {
   var progress = document.querySelector('.player-sidebar__time-line--filling');
   var timeLeft  = document.querySelector('.controls__vidoe-time');
 
+// Данные из апи
+  var tvName = document.querySelector('.tv-program__name');    // Имя телеканала
+  var tvIcon = document.querySelector('.tv-program__icon');   // Иконка телеканала
+  var tvnext = document.querySelector('.tv-about__next');    // Следуящая программа
+  var tvtype = document.querySelector('.tv-program__type'); // Тип программы
+
+
+// баг убрать со скрытием/появлением при стоп и движении мыши
+// Прописать замену для апишки
+// Переход по каналам для стрелок вверх/вниз
+// Шрифты
+// Структуризация кода
+
+
+
+
+
+
 // Поддержка hls
   if (Hls.isSupported()) {
     var video = document.getElementById('video');
@@ -21,12 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
     hls.attachMedia(video);
   }
 
-// Обработчик события движения мыши
-  document.addEventListener('mousemove', appearanceControls);
-// Обработчик события окончания клика на видео
-  video.addEventListener('mouseup', function() {
-    isClickEvent = false;
-  });
+  document.addEventListener('mousemove', appearanceControls); // Обработчик события движения мыши
+  video.addEventListener('mouseup', endClickMouse);          // Обработчик события окончания клика на видео
 
 
 
@@ -76,7 +90,7 @@ video.addEventListener('click', function(event) {
   
 
 
-  
+
 // Полоса видео
   video.addEventListener('timeupdate', function() {
     var currentTime = video.currentTime;
@@ -101,6 +115,11 @@ function resetTimer() {
   timeout = setTimeout(function() {
     hiddenPanel.style.display = 'none';
   }, 2000); // Время задержки перед сокрытием панели (2 секунды)
+}
+
+// 
+function endClickMouse() {
+  isClickEvent = false;
 }
 
 // Функция для переключения паузы/старта видео
