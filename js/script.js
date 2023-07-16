@@ -1,18 +1,19 @@
 document.addEventListener('DOMContentLoaded', main);
 // Реакция на клавишы              сделана
-// Реакция на клики
+// Реакция на клики                сделана
 // Появление  панели
-
-
 
 
 function main() {
   var video = document.getElementById('video'); // тег видео для загрузки hls плеера
 
   addHls('https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8');
-  document.addEventListener('keydown', handlerKeyboards);
-  // video.addEventListener('click', handlerClickVideo);
-
+  document.addEventListener('keydown', handlerKeyboards);                 // Отслеживаем клавиши
+  document.addEventListener('click', handlerClickVideo);                 // Отслеживаем клики
+  video.addEventListener('timeupdate', changeTimeLine);                 // Обновляем полосу прогресса
+  video.addEventListener('pause', appearanceOrDisappearanceControls);  // Отслеживаем остановку видео
+  video.addEventListener('play', appearanceOrDisappearanceControls);  // Отслеживаем старт видео
+  document.addEventListener('mousemove', peekControls);        // Обработчик события движения мыши
 }
 // Добавим на страницу видео 
 function addHls(src_video) {
@@ -27,18 +28,13 @@ function addHls(src_video) {
   }
 }
 
-// Обраюотка клавиатуры
+// Обработка клавиатуры
 function handlerKeyboards(event) {
-  var isSpacePressed = false;
   var powerVolume = 0; // мощность звука 
 
-  event.preventDefault(); // выключим все действия по умолчанию
   switch (event.code) {
     case 'Enter':
       video.requestFullscreen();
-    break;
-    case 'Space':
-      tumblerPauseOrPlay();
     break;
     case 'ArrowLeft':
       rewindVideo(false);
@@ -65,22 +61,9 @@ function handlerKeyboards(event) {
   
 }
 
-// Обработка пробела
-function handleSpaceKey() {
-  if (!isSpacePressed) {
-    isSpacePressed = true;
-    tumblerPauseOrPlay();
-  }
-}
-
 // Переключатель паузы и стопа
 function tumblerPauseOrPlay() {
-  if (video.paused) {
-    video.play();
-  }
-  else {
-    video.pause();
-  }
+  video.paused ? video.play() : video.pause();
 }
 
 // Перемотка видео вперед/назад
@@ -126,3 +109,40 @@ function controlSound(optionSound) {
   }
 }
 
+// Обработка кликов на странице
+function handlerClickVideo(event) {
+  switch (event.target.classList[0]) {
+    case 'player__video':
+      tumblerPauseOrPlay();
+    break;
+    case 'player-sidebar__time-line':
+      jumpVideo(event);
+    break;
+    case 'player-sidebar__time-line--filling':
+      jumpVideo(event);
+    break;
+  }
+}
+
+// Прыжки в видео по шкале в перед
+function jumpVideo(event) {
+  video.currentTime = (video.duration / 100) * (event.offsetX / document.querySelector('.player-sidebar__time-line').offsetWidth) * 100;
+}
+
+// Изменение шкалы видео под момент который происходит
+function changeTimeLine(params) {
+  document.querySelector('.player-sidebar__time-line--filling').style.width = (video.currentTime /video.duration) * 100 + '%'; 
+}
+
+// Появление панели и исчезновение на стоп/старт
+function appearanceOrDisappearanceControls() {
+  document.querySelector('.controls').style.visibility = video.paused ? 'visible' : 'hidden';
+}
+
+// Появление панели на секунды
+function peekControls(params) {
+  document.querySelector('.controls').style.visibility = 'visible';
+  setTimeout(function() {
+    document.querySelector('.controls').style.visibility = 'hidden';
+  }, 2000); // 2 секунды (2000 миллисекунд)
+}
