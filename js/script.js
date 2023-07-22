@@ -1,20 +1,49 @@
 document.addEventListener('DOMContentLoaded', main);
 // Реакция на клавишы              сделана
 // Реакция на клики                сделана
-// Появление  панели
+// Появление  панели               сделана
 
 
 function main() {
   var video = document.getElementById('video'); // тег видео для загрузки hls плеера
-
   addHls('https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8');
   document.addEventListener('keydown', handlerKeyboards);                 // Отслеживаем клавиши
   document.addEventListener('click', handlerClickVideo);                 // Отслеживаем клики
   video.addEventListener('timeupdate', changeTimeLine);                 // Обновляем полосу прогресса
   video.addEventListener('pause', appearanceOrDisappearanceControls);  // Отслеживаем остановку видео
   video.addEventListener('play', appearanceOrDisappearanceControls);  // Отслеживаем старт видео
-  document.addEventListener('mousemove', peekControls);        // Обработчик события движения мыши
+  document.addEventListener('mousemove', peekControls);              // Обработчик события движения мыши
+
+
+  const url = 'https://pl.iptv2021.com/api/v4/playlist';
+  // Занесем тестовый URL в переменную
+  // const url = 'https://jsonplaceholder.typicode.com/users';
+  sendRequest('GET', url) 
+    .then(data => console.log(data)) 
+    .catch(err => console.log(err)) 
+
+  
+
+  
+
 }
+
+
+function sendRequest(method, url, body = null) {
+  const headers = {
+    'User-Agent': '{"platform":"android","app":"limehd.ru.ctv.nsk","version_name":"2.8.3","version_code":"286","sdk":"29","name":"PHONE","device_id":"43592e017890be21"}'
+  };
+  return fetch(url, {
+    method: method,
+    headers: headers
+  }).then( response => {
+    return response.json()
+  })
+}
+
+
+
+
 // Добавим на страницу видео 
 function addHls(src_video) {
   if (Hls.isSupported(video)) {
@@ -35,6 +64,7 @@ function handlerKeyboards(event) {
   switch (event.code) {
     case 'Enter':
       video.requestFullscreen();
+      handleFullscreenChange()
     break;
     case 'ArrowLeft':
       rewindVideo(false);
@@ -58,7 +88,6 @@ function handlerKeyboards(event) {
       controlSound('-');
     break;
   }
-  
 }
 
 // Переключатель паузы и стопа
@@ -140,9 +169,33 @@ function appearanceOrDisappearanceControls() {
 }
 
 // Появление панели на секунды
-function peekControls(params) {
+function peekControls() {
   document.querySelector('.controls').style.visibility = 'visible';
   setTimeout(function() {
-    document.querySelector('.controls').style.visibility = 'hidden';
+    if (checkPauseForMouse()) {
+      document.querySelector('.controls').style.visibility = 'hidden';
+    }
   }, 2000); // 2 секунды (2000 миллисекунд)
 }
+
+//Проверка на паузу для мыши
+function checkPauseForMouse() {
+  return video.paused ? false : true;
+}
+
+// Реализовать панель в полноэкранном режиме
+function handleFullscreenChange() {
+//  
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+//   
+}
+
+
