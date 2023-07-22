@@ -1,0 +1,64 @@
+# Игнорировать файлы и папки, созданные IDE и текстовыми редакторами
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.user
+*.bak
+
+# Игнорировать временные и бинарные файлы
+*.log
+*.tmp
+*.temp
+*.cache
+*.db
+*.sqlite
+*.dat
+
+# Игнорировать зависимости и сгенерированные файлы
+node_modules/
+bower_components/
+*.min.js
+*.min.css
+*.bak
+
+# Игнорировать файлы конфигурации
+*.env
+.env.*
+*.config
+
+# Игнорировать сгенерированные документы и отчеты
+*.pdf
+*.doc
+*.docx
+*.ppt
+*.pptx
+
+# Игнорировать изображения и видео
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.ico
+*.mp4
+*.avi
+
+# Игнорировать архивы и компилированные файлы
+*.zip
+*.rar
+*.exe
+*.dll
+
+# Исключения (не игнорировать) - укажите файлы или папки, которые вы хотите отслеживать
+!important-file.txt
+!important-folder/
+
+
+# Игнорировать JSON файлы
+rez.json
+rez.txt
