@@ -61,9 +61,13 @@ video::-webkit-media-controls-panel {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
+  
+    overflow: hidden; 
 }
 .tv-program__icon {
   padding-right: 20px;
+  max-width: 40px;
+  max-height: 30px;
 }
 .tv-program__name {
   color: #e4e2e2;
