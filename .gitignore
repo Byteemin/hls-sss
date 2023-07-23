@@ -61,4 +61,5 @@ bower_components/
 
 # Игнорировать JSON файлы
 rez.json
+test.json
 rez.txt
