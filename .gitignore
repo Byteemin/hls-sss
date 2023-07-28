@@ -63,3 +63,8 @@ bower_components/
 rez.json
 test.json
 rez.txt
+
+# Доп игноры
+styleForMainPage.css
+indexMainPage.html
+Rezerv.html

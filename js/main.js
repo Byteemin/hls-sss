@@ -11,16 +11,18 @@ let needChannel = 0;
 
 // Основная управляющая функция
 function main() {
-
+  addCode(helpers.player, false);
+  // addCode(helpers.mainManu, true);
   
   fetchDataAndUseIt('GET', url); // Вызываем функцию для получения данных и использования их на сайте
                                 // Загружаем стрничку используя данные
                                // Если требуется вызываем функцию со сменой канала
 
   const video = document.getElementById('video'); // тег видео для загрузки hls плеера
+  document.addEventListener('click', handlerClickVideo);                 // Отслеживаем клики
+  // какой-то старт
   addHls('https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8');
   document.addEventListener('keydown', handlerKeyboards);                 // Отслеживаем клавиши
-  document.addEventListener('click', handlerClickVideo);                 // Отслеживаем клики
   video.addEventListener('timeupdate', changeTimeLine);                 // Обновляем полосу прогресса
   video.addEventListener('pause', appearanceOrDisappearanceControls);  // Отслеживаем остановку видео
   video.addEventListener('play', appearanceOrDisappearanceControls);  // Отслеживаем старт видео
@@ -48,8 +50,8 @@ function handlerKeyboards(event) {
 
   switch (event.code) {
     case 'Enter':
-      video.requestFullscreen();
-      handleFullscreenChange()
+      document.querySelector('.player').requestFullscreen();
+      // handleFullscreenChange() //Болванка на доп функции для страници
     break;
     case 'ArrowLeft':
       rewindVideo(false);
@@ -58,9 +60,11 @@ function handlerKeyboards(event) {
       rewindVideo(true);
     break;
     case 'ArrowUp':
+      // event.preventDefault();
       shiftChannel(1);
     break;
     case 'ArrowDown':
+      // event.preventDefault();
       shiftChannel(-1);
     break;
     case 'Equal':
@@ -102,25 +106,33 @@ function controlSound(optionSound) {
   var stepVolume = 0.1 // шаг переключения
   switch (optionSound) {
     case '+':
-      video.volume += stepVolume;
-      break;
-      case '*':
-        if (video.volume === 0) {
-          video.volume = powerVolume; // Восстановление предыдущего значения громкости
-        } else {
-          powerVolume = video.volume; // Сохранение текущего значения громкости
-          video.volume = 0;
-        }
-      break;
-      case '-':
-      video.volume -= stepVolume;
-      break;
+      if (video.volume > 1) {
+        video.volume += stepVolume;
+      }
+    break;
+    case '*':
+      if (video.volume === 0) {
+        video.volume = powerVolume; // Восстановление предыдущего значения громкости
+      } else {
+        powerVolume = video.volume; // Сохранение текущего значения громкости
+        video.volume = 0;
+      }
+    break;
+    case '-':
+      if (video.volume < 1) {
+        video.volume -= stepVolume;
+      }
+    break;
   }
 }
 
 // Обработка кликов на странице
 function handlerClickVideo(event) {
   switch (event.target.classList[0]) {
+    case 'card':
+      console.log('click');
+      loadingPagePlayer();
+    break;
     case 'player__video':
       tumblerPauseOrPlay();
     break;
@@ -150,7 +162,15 @@ function appearanceOrDisappearanceControls() {
 
 // Появление панели на секунды
 function peekControls() {
-  document.querySelector('.controls').style.visibility = 'visible';
+  // Нужно чтобы функция меняла только один раз в 2 секунды
+  if (document.querySelector('.controls').style.visibility != 'visible') {
+    document.querySelector('.controls').style.visibility = 'visible';
+    console.log("time тут должно быть время")
+  }
+  else {
+    console.log("time moments тут должно быть время")
+  }
+  // document.querySelector('.controls').style.visibility = 'visible';
   setTimeout(function() {
     if (checkPauseForMouse()) {
       document.querySelector('.controls').style.visibility = 'hidden';
@@ -163,24 +183,30 @@ function checkPauseForMouse() {
   return video.paused ? false : true;
 }
 
-// Реализовать панель в полноэкранном режиме
-function handleFullscreenChange() {
-//  
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-//   
-}
 
 // Обновление времени в блоке
 function trackingTime() {
     document.querySelector('.controls__vidoe-time').textContent = "Еще " + Math.floor((video.duration - video.currentTime) / 60) + " минут";
+}
+
+// Добавляем код на страницу
+function addCode(htmlCode, mainPageCheck) {
+  if (mainPageCheck) {
+    document.body.innerHTML = '';
+    helpers.loadCSSFile('css/styleForMainPage.css')
+    document.body.insertAdjacentHTML('beforeend', htmlCode);
+  }
+  else {
+    document.body.innerHTML = '';
+    helpers.loadCSSFile('css/style.css')
+    document.body.insertAdjacentHTML('beforeend', htmlCode);
+  }
+} 
+
+// Загрузка плеера с заданными параметрами
+function loadingPagePlayer(){
+
+  addCode(helpers.player, false);
 }
 
 // Получение данных с сервера и вызов последующей обработки
@@ -381,7 +407,7 @@ async function fetchDataAndUseIt(method, url, needChannel = 0) {
 
 // Загрузка страницы с данными по умолчанию
 function processData(data, needChannel) {
-  console.log(data);
+  // console.log(data);
   document.querySelector('.tv-program__name').textContent = data.channels[needChannel].name_ru;
   document.querySelector('.tv-program__icon').src = data.channels[needChannel].image;
   // addHls('https://cph-msl.akamaized.net/hls/live/2000341/test/master.m3u8');
