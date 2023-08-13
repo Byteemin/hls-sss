@@ -4,31 +4,80 @@ import * as helpers from './assistance.js';
 document.addEventListener('DOMContentLoaded', main);
 
 
+
+// пересылка данных с главного меню (идентификатор канала)----- выключение функций меню(в основном стилей) ---------- загрузка плеера(стили и функции которые должны поддерживать плеер)
+// те если  
+
 // temp
 const url = 'https://jsonplaceholder.typicode.com/users';
-let data;
-let needChannel = 0;
+let data;                     // Данные из апи
+let needChannel = 0;         // Канал который будет включен из главного меню
+let checkPageState = false; //  ----checkPageState проверка статуса страници те в режиме плеера она или в режиме главного меню
 
 // Основная управляющая функция
 function main() {
-  addCode(helpers.player, false);
+  // addCode(helpers.player, false);
   // addCode(helpers.mainManu, true);
+  fetchDataAndUseIt('GET', url);      // Вызываем функцию для получения данных и использования их на сайте 
+  buttonRendering(data)              // загрузка меню количество каналов используя апи
+                                // клик по каналу включение плеера
   
-  fetchDataAndUseIt('GET', url); // Вызываем функцию для получения данных и использования их на сайте
-                                // Загружаем стрничку используя данные
-                               // Если требуется вызываем функцию со сменой канала
+  
 
-  const video = document.getElementById('video'); // тег видео для загрузки hls плеера
-  document.addEventListener('click', handlerClickVideo);                 // Отслеживаем клики
-  // какой-то старт
-  addHls('https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8');
-  document.addEventListener('keydown', handlerKeyboards);                 // Отслеживаем клавиши
-  video.addEventListener('timeupdate', changeTimeLine);                 // Обновляем полосу прогресса
-  video.addEventListener('pause', appearanceOrDisappearanceControls);  // Отслеживаем остановку видео
-  video.addEventListener('play', appearanceOrDisappearanceControls);  // Отслеживаем старт видео
-  document.addEventListener('mousemove', peekControls);              // Обработчик события движения мыши
-  video.addEventListener('timeupdate',trackingTime);                // Обновляем время до конца видео
+  // processData(data, needChannel);    // базовая загрузка если открыть плеер сразу.
+  // supportForPlayer(checkPageState); // Запускаем основную логику для плеера
 }
+
+// Создаем структуру сайта с нуля
+function buttonRendering(data, ) {
+  // console.log(data.channels.length)
+  // Создаем главный блок .center-container
+  let centerContainer = document.createElement('div');
+  centerContainer.className = 'center-container';
+  document.body.appendChild(centerContainer);
+
+  // Создаем вложенный блок .container---top и добавляем его в .center-container
+  let containerTop = document.createElement('div');
+  containerTop.className = 'container---top';
+  centerContainer.appendChild(containerTop);
+
+  // Создаем блоки .card внутри .container---top
+  for (var channelCard = 0; channelCard < data.channels.length; channelCard++) {
+    var cardDiv = document.createElement('div');
+    cardDiv.className = 'card';
+
+    var image = document.createElement('img');
+    image.src = data.channels[channelCard].image;
+    image.className = 'logo';
+
+    var channelDiv = document.createElement('div');
+    channelDiv.className = 'channels';
+
+    var nameDiv = document.createElement('div');
+    nameDiv.className = 'channels__name';
+    nameDiv.textContent = data.channels[channelCard].name_ru;
+
+    var programmDiv = document.createElement('div');
+    programmDiv.className = 'channels__programm';
+    programmDiv.textContent = 'Новости';
+
+    // Вложение элементов: сначала создаем иерархию, затем добавляем в блок .card
+    channelDiv.appendChild(nameDiv);
+    channelDiv.appendChild(programmDiv);
+    cardDiv.appendChild(image);
+    cardDiv.appendChild(channelDiv);
+    containerTop.appendChild(cardDiv);
+  }
+}
+
+
+
+
+
+
+
+
+
 
 // Добавим на страницу видео 
 function addHls(src_video) {
@@ -129,10 +178,10 @@ function controlSound(optionSound) {
 // Обработка кликов на странице
 function handlerClickVideo(event) {
   switch (event.target.classList[0]) {
-    case 'card':
-      console.log('click');
-      loadingPagePlayer();
-    break;
+    // case 'card':
+    //   console.log('click');
+    //   loadingPagePlayer();
+    // break;
     case 'player__video':
       tumblerPauseOrPlay();
     break;
@@ -162,15 +211,7 @@ function appearanceOrDisappearanceControls() {
 
 // Появление панели на секунды
 function peekControls() {
-  // Нужно чтобы функция меняла только один раз в 2 секунды
-  if (document.querySelector('.controls').style.visibility != 'visible') {
-    document.querySelector('.controls').style.visibility = 'visible';
-    console.log("time тут должно быть время")
-  }
-  else {
-    console.log("time moments тут должно быть время")
-  }
-  // document.querySelector('.controls').style.visibility = 'visible';
+  document.querySelector('.controls').style.visibility = 'visible';
   setTimeout(function() {
     if (checkPauseForMouse()) {
       document.querySelector('.controls').style.visibility = 'hidden';
@@ -399,7 +440,7 @@ async function fetchDataAndUseIt(method, url, needChannel = 0) {
     }
     // 
     // 
-    processData(data, needChannel);
+    // processData(data, needChannel);
   } catch (error) {
     console.error('Ошибка при получении данных:', error);
   }
@@ -407,8 +448,22 @@ async function fetchDataAndUseIt(method, url, needChannel = 0) {
 
 // Загрузка страницы с данными по умолчанию
 function processData(data, needChannel) {
-  // console.log(data);
   document.querySelector('.tv-program__name').textContent = data.channels[needChannel].name_ru;
   document.querySelector('.tv-program__icon').src = data.channels[needChannel].image;
-  // addHls('https://cph-msl.akamaized.net/hls/live/2000341/test/master.m3u8');
+  addHls('https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8');
+  return checkPageState = true;
+}
+
+function supportForPlayer(checkPageState) {
+  if (checkPageState) {
+    const video = document.getElementById('video');                           // тег видео для загрузки hls плеера
+    document.addEventListener('click', handlerClickVideo);                   // Отслеживаем клики ***ниже подключение потокового видео
+    // addHls('https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8');
+    document.addEventListener('keydown', handlerKeyboards);                // Отслеживаем клавиши
+    video.addEventListener('timeupdate', changeTimeLine);                 // Обновляем полосу прогресса
+    video.addEventListener('pause', appearanceOrDisappearanceControls);  // Отслеживаем остановку видео
+    video.addEventListener('play', appearanceOrDisappearanceControls);  // Отслеживаем старт видео
+    document.addEventListener('mousemove', peekControls);              // Обработчик события движения мыши
+    video.addEventListener('timeupdate',trackingTime);                // Обновляем время до конца видео
+  }
 }
