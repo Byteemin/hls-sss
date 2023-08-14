@@ -16,30 +16,37 @@ let checkPageState = false; //  ----checkPageState проверка статус
 
 // Основная управляющая функция
 function main() {
-  // addCode(helpers.player, false);
-  // addCode(helpers.mainManu, true);
   fetchDataAndUseIt('GET', url);      // Вызываем функцию для получения данных и использования их на сайте 
   buttonRendering(data)              // загрузка меню количество каналов используя апи
-                                // клик по каналу включение плеера
   
-  
+  // Получаем все элементы с классом "card"
+  var cardBlocks = document.querySelectorAll('.card');
 
-  // processData(data, needChannel);    // базовая загрузка если открыть плеер сразу.
-  // supportForPlayer(checkPageState); // Запускаем основную логику для плеера
+  // Перебираем все блоки и добавляем обработчик события "click"
+  cardBlocks.forEach(function(cardBlock, index) {
+    cardBlock.addEventListener('click', function() {
+      console.log(index);
+      processData(data, index);
+    });
+  });
+
+
 }
 
 // Создаем структуру сайта с нуля
 function buttonRendering(data, ) {
-  // console.log(data.channels.length)
+  // Чистка боди от контента
+  document.body.innerHTML = '';
+
   // Создаем главный блок .center-container
   let centerContainer = document.createElement('div');
   centerContainer.className = 'center-container';
   document.body.appendChild(centerContainer);
 
-  // Создаем вложенный блок .container---top и добавляем его в .center-container
-  let containerTop = document.createElement('div');
-  containerTop.className = 'container---top';
-  centerContainer.appendChild(containerTop);
+  // Создаем вложенный блок .content-page и добавляем его в .center-container
+  let contentPage = document.createElement('div');
+  contentPage.className = 'content-page';
+  centerContainer.appendChild(contentPage);
 
   // Создаем блоки .card внутри .container---top
   for (var channelCard = 0; channelCard < data.channels.length; channelCard++) {
@@ -66,17 +73,9 @@ function buttonRendering(data, ) {
     channelDiv.appendChild(programmDiv);
     cardDiv.appendChild(image);
     cardDiv.appendChild(channelDiv);
-    containerTop.appendChild(cardDiv);
+    contentPage.appendChild(cardDiv);
   }
 }
-
-
-
-
-
-
-
-
 
 
 // Добавим на страницу видео 
@@ -124,6 +123,9 @@ function handlerKeyboards(event) {
     break;
     case 'Minus':
       controlSound('-');
+    break;
+    case 'Escape':
+      checkBackManu();
     break;
   }
 }
@@ -178,10 +180,6 @@ function controlSound(optionSound) {
 // Обработка кликов на странице
 function handlerClickVideo(event) {
   switch (event.target.classList[0]) {
-    // case 'card':
-    //   console.log('click');
-    //   loadingPagePlayer();
-    // break;
     case 'player__video':
       tumblerPauseOrPlay();
     break;
@@ -231,24 +229,11 @@ function trackingTime() {
 }
 
 // Добавляем код на страницу
-function addCode(htmlCode, mainPageCheck) {
-  if (mainPageCheck) {
-    document.body.innerHTML = '';
-    helpers.loadCSSFile('css/styleForMainPage.css')
-    document.body.insertAdjacentHTML('beforeend', htmlCode);
-  }
-  else {
-    document.body.innerHTML = '';
-    helpers.loadCSSFile('css/style.css')
-    document.body.insertAdjacentHTML('beforeend', htmlCode);
-  }
+function loadingPlayer(htmlCode) {
+  
+  document.body.innerHTML = '';
+  document.body.insertAdjacentHTML('beforeend', htmlCode);
 } 
-
-// Загрузка плеера с заданными параметрами
-function loadingPagePlayer(){
-
-  addCode(helpers.player, false);
-}
 
 // Получение данных с сервера и вызов последующей обработки
 async function fetchDataAndUseIt(method, url, needChannel = 0) {
@@ -448,12 +433,14 @@ async function fetchDataAndUseIt(method, url, needChannel = 0) {
 
 // Загрузка страницы с данными по умолчанию
 function processData(data, needChannel) {
+  loadingPlayer(helpers.player);
   document.querySelector('.tv-program__name').textContent = data.channels[needChannel].name_ru;
   document.querySelector('.tv-program__icon').src = data.channels[needChannel].image;
   addHls('https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8');
-  return checkPageState = true;
+  supportForPlayer(true); // ну и поддержка плеера
 }
 
+// все что нужно для работы плеера стоит доработать
 function supportForPlayer(checkPageState) {
   if (checkPageState) {
     const video = document.getElementById('video');                           // тег видео для загрузки hls плеера
@@ -465,5 +452,15 @@ function supportForPlayer(checkPageState) {
     video.addEventListener('play', appearanceOrDisappearanceControls);  // Отслеживаем старт видео
     document.addEventListener('mousemove', peekControls);              // Обработчик события движения мыши
     video.addEventListener('timeupdate',trackingTime);                // Обновляем время до конца видео
+  }
+}
+
+// возвращение в главное меню чере 'Escape'
+function checkBackManu() {
+  // проверка на полноэкранный режим
+  if (document.fullscreenElement !== document.querySelector('.player')) {
+    supportForPlayer(false);
+    buttonRendering(data);
+    
   }
 }
