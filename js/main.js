@@ -22,8 +22,8 @@ function main() {
     cardBlock.addEventListener('click', function() {
       // console.log(index);
       // console.log('заглушка перехода');
-      localStorage.setItem("channelIndex", index);
-      window.location.href = "player.html"; // Переход на вторую страницу
+      document.cookie = "channelIndex=" +index;
+      window.location.href = "player.html";
     });
   });
 
@@ -262,7 +262,9 @@ async function fetchDataAndUseIt(method, url, needChannel = 0) {
       "date_activate_v":  0,
       "date_activate_m":  0
     }
-    localStorage.setItem("dataAPI", JSON.stringify(data));
+    // 
+    // 
+    // processData(data, needChannel);
   } catch (error) {
     console.error('Ошибка при получении данных:', error);
   }
