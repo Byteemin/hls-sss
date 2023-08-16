@@ -20,8 +20,10 @@ function main() {
   // Перебираем все блоки и добавляем обработчик события "click"
   cardBlocks.forEach(function(cardBlock, index) {
     cardBlock.addEventListener('click', function() {
-      console.log(index);
-      console.log('заглушка перехода');
+      // console.log(index);
+      // console.log('заглушка перехода');
+      localStorage.setItem("channelIndex", index);
+      window.location.href = "player.html"; // Переход на вторую страницу
     });
   });
 
@@ -260,9 +262,7 @@ async function fetchDataAndUseIt(method, url, needChannel = 0) {
       "date_activate_v":  0,
       "date_activate_m":  0
     }
-    // 
-    // 
-    // processData(data, needChannel);
+    localStorage.setItem("dataAPI", JSON.stringify(data));
   } catch (error) {
     console.error('Ошибка при получении данных:', error);
   }
