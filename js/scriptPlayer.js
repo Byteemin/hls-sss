@@ -182,8 +182,7 @@ let data = {
 
 // Основная функция плеера
 function main() {
-
-  channelLoading(data, needChannel);                                          // Загрузка канала имени и времени
+  channelLoading(data, gateDataUrl());                                          // Загрузка канала имени и времени
 
   const video = document.getElementById('video');                           // тег видео для загрузки hls плеера
   document.addEventListener('click', handlerClickVideo);                   // Отслеживаем клики ***ниже подключение потокового видео
@@ -196,6 +195,14 @@ function main() {
   video.addEventListener('timeupdate',trackingTime);                // Обновляем время до конца видео
 }
 
+function gateDataUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const index = params.get("index");
+
+  return index;
+}
+
+// Загрузка данных из апи
 function channelLoading(data, needChannel) {
   document.querySelector('.tv-program__name').textContent = data.channels[needChannel].name_ru;
   document.querySelector('.tv-program__icon').src = data.channels[needChannel].image;
