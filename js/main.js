@@ -22,7 +22,8 @@ function main() {
     cardBlock.addEventListener('click', function() {
       // console.log(index);
       // console.log('заглушка перехода');
-      window.location.href = "player.html?index=" +index; // Переход на вторую страницу
+      const encodedData = encodeURIComponent(JSON.stringify(data));
+      window.location.href = "player.html?index=" + index + "&data=" + encodedData; // Переход на вторую страницу
     });
   });
 
