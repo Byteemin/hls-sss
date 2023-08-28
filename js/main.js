@@ -20,10 +20,8 @@ function main() {
   // Перебираем все блоки и добавляем обработчик события "click"
   cardBlocks.forEach(function(cardBlock, index) {
     cardBlock.addEventListener('click', function() {
-      // console.log(index);
-      // console.log('заглушка перехода');
       const encodedData = encodeURIComponent(JSON.stringify(data));
-      window.location.href = "player.html?index=" + index + "&data=" + encodedData; // Переход на вторую страницу
+      window.location.href = "player.html?index=" + index; 
     });
   });
 
@@ -32,20 +30,16 @@ function main() {
 
 // Создаем структуру сайта с нуля
 function buttonRendering(data, ) {
-  // Чистка боди от контента
   document.body.innerHTML = '';
 
-  // Создаем главный блок .center-container
   let centerContainer = document.createElement('div');
   centerContainer.className = 'center-container';
   document.body.appendChild(centerContainer);
 
-  // Создаем вложенный блок .content-page и добавляем его в .center-container
   let contentPage = document.createElement('div');
   contentPage.className = 'content-page';
   centerContainer.appendChild(contentPage);
 
-  // Создаем блоки .card внутри .container---top
   for (var channelCard = 0; channelCard < data.channels.length; channelCard++) {
     var cardDiv = document.createElement('div');
     cardDiv.className = 'card';

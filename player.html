@@ -3,17 +3,11 @@
 <head>
     <title>Test</title>
     <link rel="stylesheet" href="css/normolize.css">
-    <!-- <link rel="stylesheet" href="css/styleForMainPage.css"> -->
     <link rel="stylesheet" href="css/style.css">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mukta+Mahee&display=swap" rel="stylesheet">
-    <!-- dop scripts for work hls  -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
-
-    <!-- попытка перекинуть весь скрипт в отдельный файл) -->
-    <!-- <script src="assistance.js"></script> -->
     <script type="module" src="js/scriptPlayer.js"></script>
 </head>
 <body>
@@ -26,18 +20,16 @@
           <div class="tv">
             <div class="tv-program">
               <img class="tv-program__icon" src="img/icon/Logos.png">
-              <div class="tv-program__name">СNN</div>
+              <h1 class="tv-program__name">СNN</h1>
             </div>
             <div class="tv-about">
-              <div class="tv-about__next">Далее: Турминатор 2</div>
-              <div class="tv-about__type">Новости</div>
+              <p class="tv-about__next">Далее: Турминатор 2</p>
+              <p class="tv-about__type">Новости</p>
             </div>
           </div>
-          <div class="player-sidebar">
-              <div class="player-sidebar__time-line">
-                <div id="proggress" class="player-sidebar__time-line--filling"></div>
-              </div>
-          </div>
+            <div class="player-sidebar__time-line">
+              <div id="proggress" class="player-sidebar__time-line--filling"></div>
+            </div>
         </div>
       </div>
     </div>

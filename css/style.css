@@ -2,9 +2,10 @@ body {
   overflow: hidden;
   font-family: 'Mukta Mahee', sans-serif;
 }
-
-
-
+h1, p {
+  font-size: 12px;
+  margin: 0;
+}
 .center-container {
   height: 100vh;
   width: 100%;
@@ -13,7 +14,6 @@ body {
   align-items: center;
   background-color: #565c5b;                                           
 }
-
 /* Стили главного меню */
 .content-page {
   display: flex;
@@ -26,14 +26,10 @@ body {
   font-family: 'Roboto Condensed', sans-serif;
   color: antiquewhite;
   height: 90px;
-  width: 250px;
-  /* border: 3px solid #6624ca; */
-  /* border-radius: 10px; */                  
+  width: 250px;               
   display: flex;
-  /* justify-content: space-around; */
   align-items: center;
 }
-
 .card:hover{
   outline: 3px solid #499924;
   background-color: #6c7372;
@@ -50,15 +46,10 @@ body {
   display: flex;
   flex-direction: column;
 }
-
-
-
-
 /* Стили плеера */
 .container {
   height: 100vh;
   width: 100%;
-  /* position: relative; */
 }
 .player {
   position: relative;
@@ -67,20 +58,15 @@ body {
   height: 100vh;
   width: 100%;
 }
-
 video::-webkit-media-controls {
   display: none !important;
 }
-
 video::-webkit-media-controls-enclosure {
   display: none !important;
 }
-
 video::-webkit-media-controls-panel {
   display: none !important;
 }
-
-
 .controls {
   position: absolute;
   bottom: 0%;
@@ -92,8 +78,6 @@ video::-webkit-media-controls-panel {
   display: flex;
   visibility:hidden;
 }
-
-
 .controls__vidoe-time {
   margin-right: 20px;
   white-space: nowrap;
@@ -103,18 +87,14 @@ video::-webkit-media-controls-panel {
 .info-video {
   width: max-content;
 }
-
 .tv {
   display: flex;
   align-items: center;
 }
-
 .tv-program {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  
-    overflow: hidden; 
 }
 .tv-program__icon {
   padding-right: 20px;
@@ -127,22 +107,11 @@ video::-webkit-media-controls-panel {
 }
 .tv-about {
   color: #e4e2e2;
-  /* display: flex; */
 }
 .tv-about__next {
   color: #545454;
   margin-bottom: 3px;
 }
-.tv-about__type {
-  /* color: #e4e2e2; */
-}
-
-
-.player-sidebar {
-  display: flex;
-  align-items: baseline;
-}
-
 .player-sidebar__time-line {
   background-color: #fff;
   border-radius: 10px;
@@ -154,19 +123,5 @@ video::-webkit-media-controls-panel {
   border-radius: 10px;
   width: 0;
   height: 0.8vh;
-  /* z-index: 1; */
   transition: width 0.2s ease-out;
-}
-
-@media (min-width: 1025px) {
-  /* Стили для средних и больших настольных компьютеров */
-}
-@media (min-width: 769px) and (max-width: 1024px) {
-  /* Стили для небольших ноутбуков и горизонтальной ориентации планшетов */
-}
-@media (min-width: 481px) and (max-width: 768px) {
-  /* Стили для планшетов и горизонтальной ориентации смартфонов */
-}
-@media (max-width: 480px) {
-  /* Стили для маленьких устройств */
 }
