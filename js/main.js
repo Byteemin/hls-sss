@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', main);
 
 let data;                     // Данные из апи
 
-
 // temp
 const url = 'https://jsonplaceholder.typicode.com/users';
 
@@ -24,21 +23,11 @@ function main() {
       window.location.href = "player.html?index=" + index; 
     });
   });
-
-
 }
 
 // Создаем структуру сайта с нуля
 function buttonRendering(data, ) {
-  document.body.innerHTML = '';
-
-  let centerContainer = document.createElement('div');
-  centerContainer.className = 'center-container';
-  document.body.appendChild(centerContainer);
-
-  let contentPage = document.createElement('div');
-  contentPage.className = 'content-page';
-  centerContainer.appendChild(contentPage);
+  let   contentPage = document.querySelector('.content-page');
 
   for (var channelCard = 0; channelCard < data.channels.length; channelCard++) {
     var cardDiv = document.createElement('div');
@@ -51,11 +40,11 @@ function buttonRendering(data, ) {
     var channelDiv = document.createElement('div');
     channelDiv.className = 'channels';
 
-    var nameDiv = document.createElement('div');
+    var nameDiv = document.createElement('h2');
     nameDiv.className = 'channels__name';
     nameDiv.textContent = data.channels[channelCard].name_ru;
 
-    var programmDiv = document.createElement('div');
+    var programmDiv = document.createElement('p');
     programmDiv.className = 'channels__programm';
     programmDiv.textContent = 'Новости';
 

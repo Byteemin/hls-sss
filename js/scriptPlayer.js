@@ -339,15 +339,22 @@ function changeTimeLine(params) {
 function appearanceOrDisappearanceControls() {
   document.querySelector('.controls').style.visibility = video.paused ? 'visible' : 'hidden';
 }
+let peekControlsTimer;
 
 // Появление панели на секунды
 function peekControls() {
+  // Показываем панель
   document.querySelector('.controls').style.visibility = 'visible';
-  setTimeout(function() {
+
+  // Очищаем предыдущий таймер (если есть)
+  clearTimeout(peekControlsTimer);
+
+  // Устанавливаем новый таймер для скрытия панели через 2 секунды после остановки мыши
+  peekControlsTimer = setTimeout(function() {
     if (checkPauseForMouse()) {
       document.querySelector('.controls').style.visibility = 'hidden';
     }
-  }, 2000);
+  }, 4000);
 }
 
 //Проверка на паузу для мыши
