@@ -365,7 +365,7 @@ function checkPauseForMouse() {
 
 // Обновление времени в блоке
 function trackingTime() {
-    document.querySelector('.controls__vidoe-time').textContent = "Еще " + Math.floor((video.duration - video.currentTime) / 60) + " минут";
+    document.querySelector('.timer__video').textContent =Math.floor((video.duration - video.currentTime) / 60);
 }
 
 // возвращение в главное меню чере 'Escape'

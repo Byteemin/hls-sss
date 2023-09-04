@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', main);
 let data;                     // Данные из апи
 
 // temp
-const url = 'https://jsonplaceholder.typicode.com/users';
+const url = 'https://pl.iptv2021.com/api/v4/playlist';
 
 // Основная управляющая функция
 function main() {
@@ -58,16 +58,16 @@ function buttonRendering(data, ) {
 }
 
 // Получение данных с сервера и вызов последующей обработки
-async function fetchDataAndUseIt(method, url, needChannel = 0) {
+async function fetchDataAndUseIt(method, url) {
   try {
     // Отправляем запрос к API с помощью функции sendRequest
     // const data = await helpers.sendRequest(method, url);
     // console.log(data);
-    // temp
+    //
     // 
     // 
     // 
-    //   const   
+    //  temp 
     data = {
       "channels":  [
                        {
@@ -245,7 +245,6 @@ async function fetchDataAndUseIt(method, url, needChannel = 0) {
       "date_activate_v":  0,
       "date_activate_m":  0
     }
-    localStorage.setItem("dataAPI", JSON.stringify(data));
   } catch (error) {
     console.error('Ошибка при получении данных:', error);
   }
