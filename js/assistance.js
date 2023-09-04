@@ -1,6 +1,5 @@
-const apiKey = 'https://pl.iptv2021.com/api/v4/playlist';
+const apiKey = 'https://jsonplaceholder.typicode.com/users';
 // Занесем тестовый URL в переменну
-
 
 // Феч запрос к серверу
 function sendRequest(method, url, body = null) {
@@ -15,16 +14,4 @@ function sendRequest(method, url, body = null) {
   })
 }
 
-// Функция для подключения другого файла css
-function loadCSSFile(filename) {
-  const head = document.head;
-  const link = document.createElement('link');
-
-  link.type = 'text/css';
-  link.rel = 'stylesheet';
-  link.href = filename;
-
-  head.appendChild(link);
-}
-
-export { apiKey, sendRequest, loadCSSFile };
+export { apiKey, sendRequest};
