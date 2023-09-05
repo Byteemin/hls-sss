@@ -61,7 +61,7 @@ function buttonRendering(data, ) {
 async function fetchDataAndUseIt(method, url) {
   try {
     // Отправляем запрос к API с помощью функции sendRequest
-    // const data = await helpers.sendRequest(method, url);
+    //  data = await helpers.sendRequest(method, url);
     // console.log(data);
     //
     // 
